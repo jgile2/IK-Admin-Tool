@@ -9,7 +9,7 @@ Public Class chngPwd
     Dim byteOptionalEntropy As Byte() = {0, 1, 2, 3, 4}
     Dim library As Library
     Private Sub chngPwd_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'changeUser = manageUsersForm.userList.Text
+        'changeUser = manageUsersForm.userList.Text1
         '' passedUser.Text = changeUser
         library = displayForm.library
         Console.WriteLine("""test""")
