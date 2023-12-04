@@ -26,11 +26,13 @@ Partial Class manageUsersForm
         Me.btnChange = New System.Windows.Forms.Button()
         Me.userList = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.cmbAccount = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'btnDeleteUser
         '
-        Me.btnDeleteUser.Location = New System.Drawing.Point(354, 172)
+        Me.btnDeleteUser.Location = New System.Drawing.Point(354, 273)
         Me.btnDeleteUser.Name = "btnDeleteUser"
         Me.btnDeleteUser.Size = New System.Drawing.Size(292, 40)
         Me.btnDeleteUser.TabIndex = 6
@@ -39,7 +41,7 @@ Partial Class manageUsersForm
         '
         'btnChange
         '
-        Me.btnChange.Location = New System.Drawing.Point(56, 172)
+        Me.btnChange.Location = New System.Drawing.Point(56, 273)
         Me.btnChange.Name = "btnChange"
         Me.btnChange.Size = New System.Drawing.Size(292, 41)
         Me.btnChange.TabIndex = 5
@@ -49,7 +51,7 @@ Partial Class manageUsersForm
         'userList
         '
         Me.userList.FormattingEnabled = True
-        Me.userList.Location = New System.Drawing.Point(56, 102)
+        Me.userList.Location = New System.Drawing.Point(56, 203)
         Me.userList.Name = "userList"
         Me.userList.Size = New System.Drawing.Size(593, 32)
         Me.userList.TabIndex = 4
@@ -57,17 +59,38 @@ Partial Class manageUsersForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(262, 55)
+        Me.Label1.Location = New System.Drawing.Point(262, 156)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(171, 25)
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "Select User Below"
         '
+        'cmbAccount
+        '
+        Me.cmbAccount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbAccount.FormattingEnabled = True
+        Me.cmbAccount.Items.AddRange(New Object() {"Defence", "NGO"})
+        Me.cmbAccount.Location = New System.Drawing.Point(213, 58)
+        Me.cmbAccount.Name = "cmbAccount"
+        Me.cmbAccount.Size = New System.Drawing.Size(270, 32)
+        Me.cmbAccount.TabIndex = 8
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(285, 18)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(134, 25)
+        Me.Label2.TabIndex = 9
+        Me.Label2.Text = "Account Type"
+        '
         'manageUsersForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 24.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(795, 324)
+        Me.ClientSize = New System.Drawing.Size(915, 454)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.cmbAccount)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnDeleteUser)
         Me.Controls.Add(Me.btnChange)
@@ -83,4 +106,6 @@ Partial Class manageUsersForm
     Friend WithEvents btnChange As Button
     Friend WithEvents userList As ComboBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents cmbAccount As ComboBox
+    Friend WithEvents Label2 As Label
 End Class

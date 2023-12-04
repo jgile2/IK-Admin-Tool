@@ -86,6 +86,7 @@ Partial Class Startup
         '
         Me.password.Location = New System.Drawing.Point(314, 295)
         Me.password.Name = "password"
+        Me.password.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.password.Size = New System.Drawing.Size(203, 29)
         Me.password.TabIndex = 6
         '

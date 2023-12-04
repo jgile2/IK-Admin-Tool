@@ -17,31 +17,32 @@ Public Class chngPwd
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ' Your plain password
-        Dim plainPassword As String = TextBox1.Text
+        Dim plainPassword As String = txtPass.Text
         Dim EnByte() As Byte = DSInternals.Common.Cryptography.NTHash.ComputeHash(plainPassword)
         Dim hashHex As String = displayForm.library.ByteArrayToHexString(EnByte)
-
+        Dim accounttype As String = manageUsersForm.cmbAccount.SelectedIndex
         ' Calculate the NTLM hash
 
         Dim ntlmHash As String = UnicodeBytesToString(EnByte)
-        If TextBox1.Text = TextBox2.Text Then
+        If txtPass.Text = txtConf.Text Then
             Console.WriteLine(hashHex)
+
+            ' Display the result
+            Console.WriteLine("Input String: " & plainPassword)
+            ' Console.WriteLine("NTLM Hash: " & ntlmHash)
+            'For Each b As Byte In EnByte
+            'Console.WriteLine(b)
+            ' Next
+
+
+            Console.ReadLine()
+            library.updatePassword(changeUser, hashHex, accounttype)
+            Me.Close()
         Else
             MessageBox.Show("Passwords do not match")
 
         End If
 
-        ' Display the result
-        Console.WriteLine("Input String: " & plainPassword)
-        ' Console.WriteLine("NTLM Hash: " & ntlmHash)
-        'For Each b As Byte In EnByte
-        'Console.WriteLine(b)
-        ' Next
-
-
-        Console.ReadLine()
-        Library.updatePassword(changeUser, hashHex)
-        Me.Close()
     End Sub
 
     Private Function UnicodeBytesToString(

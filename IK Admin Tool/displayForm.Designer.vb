@@ -62,8 +62,7 @@ Partial Class displayForm
         '
         'connectedServer
         '
-        Me.connectedServer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.connectedServer.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.connectedServer.AutoSize = True
         Me.connectedServer.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.connectedServer.Location = New System.Drawing.Point(109, 912)
@@ -132,6 +131,7 @@ Partial Class displayForm
         Me.ClientSize = New System.Drawing.Size(1703, 949)
         Me.Controls.Add(Me.panelMenu)
         Me.Controls.Add(Me.PanelLogin)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "displayForm"
         Me.Text = "IK Admin Tool"
         Me.panelMenu.ResumeLayout(False)

@@ -128,7 +128,7 @@ Public Class main
         Console.ReadLine()
         Dim updatedLine As String = user + "  NT-Password := """ + newPassword + """"
         UpdateLineInTextFile(filePath, lineNumber, updatedLine)
-        displayForm.library.uploadFile()
+        ' displayForm.library.uploadFile()
         fillReadout()
         MessageBox.Show(user + "'s Has been updated")
     End Sub
@@ -158,7 +158,7 @@ Public Class main
         lines.RemoveAt(lineNumber - 1) ' index starts at 0 
         System.IO.File.WriteAllLines(filePath, lines)
         'MessageBox.Show("Please Wait")
-        displayForm.library.uploadFile()
+        'displayForm.library.uploadFile()
         fillReadout()
         MessageBox.Show(user + " Has been Deleted")
     End Sub

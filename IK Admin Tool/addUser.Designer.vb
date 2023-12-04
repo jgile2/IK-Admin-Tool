@@ -52,11 +52,11 @@ Partial Class addUser
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(110, 193)
+        Me.Label3.Location = New System.Drawing.Point(23, 197)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(80, 25)
+        Me.Label3.Size = New System.Drawing.Size(171, 25)
         Me.Label3.TabIndex = 2
-        Me.Label3.Text = "Confirm"
+        Me.Label3.Text = "Confirm Password"
         '
         'txtUser
         '

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class chngPwd
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,16 +20,15 @@ Partial Class chngPwd
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.passedUser = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.txtPass = New System.Windows.Forms.TextBox()
+        Me.txtConf = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.encryptPass = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Button1
@@ -68,19 +67,19 @@ Partial Class chngPwd
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Confirm Password"
         '
-        'TextBox1
+        'txtPass
         '
-        Me.TextBox1.Location = New System.Drawing.Point(284, 123)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(224, 29)
-        Me.TextBox1.TabIndex = 4
+        Me.txtPass.Location = New System.Drawing.Point(284, 123)
+        Me.txtPass.Name = "txtPass"
+        Me.txtPass.Size = New System.Drawing.Size(224, 29)
+        Me.txtPass.TabIndex = 4
         '
-        'TextBox2
+        'txtConf
         '
-        Me.TextBox2.Location = New System.Drawing.Point(284, 170)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(224, 29)
-        Me.TextBox2.TabIndex = 5
+        Me.txtConf.Location = New System.Drawing.Point(284, 170)
+        Me.txtConf.Name = "txtConf"
+        Me.txtConf.Size = New System.Drawing.Size(224, 29)
+        Me.txtConf.TabIndex = 5
         '
         'Label1
         '
@@ -91,24 +90,14 @@ Partial Class chngPwd
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "User"
         '
-        'encryptPass
-        '
-        Me.encryptPass.AutoSize = True
-        Me.encryptPass.Location = New System.Drawing.Point(329, 392)
-        Me.encryptPass.Name = "encryptPass"
-        Me.encryptPass.Size = New System.Drawing.Size(120, 25)
-        Me.encryptPass.TabIndex = 7
-        Me.encryptPass.Text = "encryptPass"
-        '
         'chngPwd
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 24.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Controls.Add(Me.encryptPass)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.TextBox2)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.txtConf)
+        Me.Controls.Add(Me.txtPass)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.passedUser)
@@ -124,8 +113,7 @@ Partial Class chngPwd
     Friend WithEvents passedUser As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents txtPass As TextBox
+    Friend WithEvents txtConf As TextBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents encryptPass As Label
 End Class

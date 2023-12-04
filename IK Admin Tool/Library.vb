@@ -8,8 +8,10 @@ Public Class Library
     Dim sshclient As SshClient
     Dim sshcomd As SshCommand
     Dim remoteLocation As String
+    Dim ngoremoteLocation As String
     Public configFilePath As String = "config.xml"
     Public filePath As String
+    Public ngofilePath As String
     Dim downloaded As Boolean = False
     Public username As String
     Public password As String
@@ -30,7 +32,7 @@ Public Class Library
     End Function
 
     Public Function updateFilePath(path As String)
-        Console.WriteLine("updating path with: ")
+        'Console.WriteLine("updating path with: ")
         filePath = path
     End Function
 
@@ -38,28 +40,34 @@ Public Class Library
         ' username = Startup.username.Text
         'password = Startup.password.Text
         'ipaddress = Startup.ipadr.Text
-
+        Dim accountType = "defence"
         filePath = ReadConfigValue(configFilePath, "templocation")
-        remoteLocation = ReadConfigValue(configFilePath, connectedServer + "/remote-location")
+        ngofilePath = ReadConfigValue(configFilePath, "ngolocation")
+        remoteLocation = ReadConfigValue(configFilePath, connectedServer + "/defence-location")
+        ngoremoteLocation = ReadConfigValue(configFilePath, connectedServer + "/ngo-location")
         client = New SftpClient(ipaddress, username, password)
         sshclient = New SshClient(ipaddress, username, password)
-        Console.WriteLine("before connected: " & connected)
+        ' Console.WriteLine("before connected: " & connected)
         Try
             sshclient.Connect()
             client.Connect()
             connected = True
         Catch ex As Exception
-            Console.WriteLine("Error: " + ex.Message)
+            ' Console.WriteLine("Error: " + ex.Message)
         Finally
 
         End Try
         If connected Then
 
 
-            Console.WriteLine(downloaded)
-            Console.WriteLine("downloading file")
-            Using streamwrite As Stream = File.Create("C:\temp\authorize")
+            ' Console.WriteLine(downloaded)
+            ' Console.WriteLine("downloading file")
+            Using streamwrite As Stream = File.Create(filePath)
                 client.DownloadFile(remoteLocation, streamwrite)
+
+            End Using
+            Using streamwrite As Stream = File.Create(ngofilePath)
+                client.DownloadFile(ngoremoteLocation, streamwrite)
 
             End Using
         Else
@@ -69,11 +77,23 @@ Public Class Library
     End Function
 
 
-    Public Function fillUserList() As String()
+    Public Function fillUserList(accounttype As String) As String()
         Dim linesToKeep As New List(Of String)
-        Console.WriteLine("file path: " + Me.filePath)
+        Dim typePath As String
+        If accounttype = "Defence" Then
+            typepath = filePath
+            ' Console.WriteLine("Account type is Defence")
+        ElseIf accounttype = "NGO" Then
+            typepath = ngofilePath
+            ' Console.WriteLine("Account type is NGO")
+        Else
+            MessageBox.Show("Invalid Account type")
+            typePath = filePath
+        End If
+
+        'Console.WriteLine("file path: " + typePath)
         Dim lineCounter As Integer = 0
-        Using reader As New StreamReader(Me.filePath)
+        Using reader As New StreamReader(typePath)
             While Not reader.EndOfStream
                 Dim line As String = reader.ReadLine()
                 If lineCounter >= 220 Then
@@ -99,7 +119,7 @@ Public Class Library
     Public Function ReadConfigValue(configFilePath As String, key As String) As String
         ' Check if the file exists
         If Not File.Exists(configFilePath) Then
-            Console.WriteLine("Configuration file not found.")
+            '  Console.WriteLine("Configuration file not found.")
             Return Nothing
         End If
 
@@ -114,62 +134,91 @@ Public Class Library
             If node IsNot Nothing Then
                 Return node.InnerText
             Else
-                Console.WriteLine($"Key '{key}' not found in the configuration file.")
+                '  Console.WriteLine($"Key '{key}' not found in the configuration file.")
                 Return Nothing
             End If
         Catch ex As Exception
-            Console.WriteLine($"An error occurred while reading the configuration file: {ex.Message}")
+            'Console.WriteLine($"An error occurred while reading the configuration file: {ex.Message}")
             Return Nothing
         End Try
     End Function
 
-    Public Sub uploadFile()
-        Using streamReady As Stream = New FileStream("C:\temp\authorize", FileMode.Open)
+    Public Sub uploadFile(accounttype As String)
+        Dim typePath As String
+        Dim locType As String
+        If accounttype = "Defence" Then
+            typePath = filePath
+            locType = remoteLocation
+            ' Console.WriteLine("Account type is Defence")
+        ElseIf accounttype = "NGO" Then
+            typePath = ngofilePath
+            locType = ngoremoteLocation
+            ' Console.WriteLine("Account type is NGO")
+        Else
+            MessageBox.Show("Invalid Account type")
+            typePath = filePath
+            locType = remoteLocation
+        End If
+        Using streamReady As Stream = New FileStream(typePath, FileMode.Open)
             'setup()
-            client.UploadFile(streamReady, remoteLocation)
-            sshcomd = sshclient.CreateCommand("chmod 0744 " + remoteLocation)
+            client.UploadFile(streamReady, locType)
+            sshcomd = sshclient.CreateCommand("chmod 0744 " + locType)
             sshcomd.Execute()
-            Console.WriteLine(sshcomd.Result)
+            ' Console.WriteLine(sshcomd.Result)
         End Using
+
     End Sub
 
 
-    Public Function deleteUser(user As String)
-        Console.WriteLine("delete user being called with user " + user)
-        Dim filePath As String = "C:\temp\authorize"
+    Public Function deleteUser(user As String, accounttype As String)
+        ' Console.WriteLine("delete user being called with user " + user)
+        Dim typePath As String
+        If accounttype = "Defence" Then
+            typePath = filePath
+            ' Console.WriteLine("Account type is Defence")
+        ElseIf accounttype = "NGO" Then
+            typePath = ngofilePath
+            ' Console.WriteLine("Account type is NGO")
+        Else
+            MessageBox.Show("Invalid Account type")
+            typePath = filePath
+        End If
 
         ' Specify the text to search for
         Dim searchText As String = user
 
         ' Find the line with specific text
-        Dim lineNumber As Integer = FindLineWithText(filePath, searchText)
-        Console.WriteLine("deleting 2")
+        Dim lineNumber As Integer = FindLineWithText(typePath, searchText)
+        ' Console.WriteLine("deleting 2")
         ' Display the result
         If lineNumber > 0 Then
-            Console.WriteLine("deleting 3")
-            Console.WriteLine($"The text '{searchText}' was found on line {lineNumber}.")
+            ' Console.WriteLine("deleting 3")
+            ' Console.WriteLine($"The text '{searchText}' was found on line {lineNumber}.")
         Else
-            Console.WriteLine($"The text '{searchText}' was not found in the file.")
+            ' Console.WriteLine($"The text '{searchText}' was not found in the file.")
         End If
 
-        Console.ReadLine()
+        ' Console.ReadLine()
         Dim linetoDelete = ""
 
-        Dim lines As List(Of String) = System.IO.File.ReadAllLines(filePath).ToList
+        Dim lines As List(Of String) = System.IO.File.ReadAllLines(typePath).ToList
         Try
             lines.RemoveAt(lineNumber - 1) ' index starts at 0 
-            System.IO.File.WriteAllLines(filePath, lines)
+            System.IO.File.WriteAllLines(typePath, lines)
             'MessageBox.Show("Please Wait")
-            uploadFile()
+            uploadFile(accounttype)
             ' fillReadout()
             MessageBox.Show(user + " Has been Deleted")
+
+
         Catch ex As Exception
-            MessageBox.Show("User Not Found")
+            MessageBox.Show(ex.Message)
         End Try
 
     End Function
 
     Function FindLineWithText(filePath As String, searchText As String) As Integer
+
         ' Read the file line by line
         Try
             Using reader As New StreamReader(filePath)
@@ -193,7 +242,7 @@ Public Class Library
             End Using
         Catch ex As Exception
             ' Handle exceptions, if any
-            Console.WriteLine("An error occurred: " & ex.Message)
+            ' Console.WriteLine("An error occurred: " & ex.Message)
         End Try
 
         ' If the text was not found, return 0
@@ -216,18 +265,18 @@ Public Class Library
                 Dim parts As String() = matchingLine.Split(" "c)
                 'Console.WriteLine(parts(0))
                 If parts(0) = user Then
-                    Console.WriteLine("User is found")
+                    ' Console.WriteLine("User is found")
                     Return True
                 Else
-                    Console.WriteLine("User is not found")
+                    ' Console.WriteLine("User is not found")
                     Return False
                 End If
             Else
-                    Console.WriteLine($"Username '{usernameToFind}' not found.")
+                'Console.WriteLine($"Username '{usernameToFind}' not found.")
                 Return False
             End If
         Catch ex As Exception
-            Console.WriteLine($"An error occurred: {ex.Message}")
+            '  Console.WriteLine($"An error occurred: {ex.Message}")
         End Try
         Return False
     End Function
@@ -244,9 +293,9 @@ Public Class Library
             ' Write the modified lines back to the file
             File.WriteAllLines(filePath, lines)
 
-            Console.WriteLine($"Line {lineNumberToUpdate} updated successfully.")
+            'Console.WriteLine($"Line {lineNumberToUpdate} updated successfully.")
         Else
-            Console.WriteLine("Invalid line number.")
+            '  Console.WriteLine("Invalid line number.")
         End If
     End Sub
 
@@ -261,38 +310,47 @@ Public Class Library
                 sw.WriteLine(textToAppend)
             End Using
 
-            Console.WriteLine("Text appended successfully.")
+            ' Console.WriteLine("Text appended successfully.")
         Catch ex As Exception
-            Console.WriteLine($"An error occurred: {ex.Message}")
+            ' Console.WriteLine($"An error occurred: {ex.Message}")
         End Try
         fillReadout()
-        uploadFile()
+        uploadFile("Defence")
+        MessageBox.Show(user & " Has been added")
     End Sub
 
-    Public Sub updatePassword(user As String, newPassword As String)
-        ' Specify the path to the text file
-        'Dim filePath As String = "C:\temp\authorize"
-
+    Public Sub updatePassword(user As String, newPassword As String, accounttype As String)
+        Dim typePath As String
+        If accounttype = "Defence" Then
+            typePath = filePath
+            ' Console.WriteLine("Account type is Defence")
+        ElseIf accounttype = "NGO" Then
+            typePath = ngofilePath
+            'Console.WriteLine("Account type is NGO")
+        Else
+            MessageBox.Show("Invalid Account type")
+            typePath = filePath
+        End If
         ' Specify the text to search for
         Dim searchText As String = user
 
         ' Find the line with specific text
-        Dim lineNumber As Integer = FindLineWithText(filePath, searchText)
+        Dim lineNumber As Integer = FindLineWithText(typePath, searchText)
 
 
         ' Display the result
         If lineNumber > 0 Then
-            Console.WriteLine($"The text '{searchText}' was found on line {lineNumber}.")
+            'Console.WriteLine($"The text '{searchText}' was found on line {lineNumber}.")
         Else
-            Console.WriteLine($"The text '{searchText}' was not found in the file.")
+            ' Console.WriteLine($"The text '{searchText}' was not found in the file.")
         End If
 
-        Console.ReadLine()
+        ' Console.ReadLine()
         Dim updatedLine As String = user + "  NT-Password := """ + newPassword + """"
-        UpdateLineInTextFile(filePath, lineNumber, updatedLine)
-        displayForm.library.uploadFile()
+        UpdateLineInTextFile(typePath, lineNumber, updatedLine)
+        'displayForm.library.uploadFile()
         fillReadout()
-        uploadFile()
+        uploadFile(accounttype)
         MessageBox.Show(user + "'s Has been updated")
     End Sub
 
@@ -307,7 +365,7 @@ Public Class Library
             'btnDelete.Text = fileContents
             ' Display the file contents
         Else
-            Console.WriteLine("The file does not exist.")
+            ' Console.WriteLine("The file does not exist.")
         End If
 
 
@@ -322,26 +380,39 @@ Public Class Library
             End Using
         Catch ex As Exception
             ' Handle exceptions, if any
-            Console.WriteLine("An error occurred: " & ex.Message)
+            ' Console.WriteLine("An error occurred: " & ex.Message)
             Return String.Empty
         End Try
 
 
     End Function
     Public Sub closingCleanup()
-        Console.WriteLine("Performing Closing Cleanup")
+        '  Console.WriteLine("Performing Closing Cleanup")
         Try
             ' Check if the file exists before attempting to delete
             If File.Exists(filePath) Then
-                Console.WriteLine("Found file to delete")
+                'Console.WriteLine("Found file to delete")
                 ' Delete the file
                 File.Delete(filePath)
-                Console.WriteLine("File deleted successfully.")
+                ' Console.WriteLine("File deleted successfully.")
             Else
-                Console.WriteLine("File does not exist.")
+                'Console.WriteLine("File does not exist.")
             End If
         Catch ex As Exception
             Console.WriteLine($"An error occurred: {ex.Message}")
+        End Try
+        Try
+            ' Check if the file exists before attempting to delete
+            If File.Exists(ngofilePath) Then
+                ' Console.WriteLine("Found file to delete")
+                ' Delete the file
+                File.Delete(ngofilePath)
+                '  Console.WriteLine("File deleted successfully.")
+            Else
+                ' Console.WriteLine("File does not exist.")
+            End If
+        Catch ex As Exception
+            '  Console.WriteLine($"An error occurred: {ex.Message}")
         End Try
     End Sub
 
@@ -353,4 +424,6 @@ Public Class Library
         Next
         Return hexString.ToString()
     End Function
+
+
 End Class
