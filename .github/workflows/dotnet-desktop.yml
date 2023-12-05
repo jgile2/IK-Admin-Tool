@@ -22,7 +22,7 @@ jobs:
       run: nuget restore IK Admin Tool.sln
 
     - name: Build
-      run: msbuild /p:Configuration=Release IK Admin Tool.sln
+      run: msbuild /p:Configuration=Release "IK Admin Tool.sln"
 
     - name: Test
       run: msbuild /t:IK Admin Tool.sln
