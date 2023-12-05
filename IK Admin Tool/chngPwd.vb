@@ -20,7 +20,7 @@ Public Class chngPwd
         Dim plainPassword As String = txtPass.Text
         Dim EnByte() As Byte = DSInternals.Common.Cryptography.NTHash.ComputeHash(plainPassword)
         Dim hashHex As String = displayForm.library.ByteArrayToHexString(EnByte)
-        Dim accounttype As String = manageUsersForm.cmbAccount.SelectedIndex
+        Dim accounttype As String = manageUsersForm.cmbAccount.Text
         ' Calculate the NTLM hash
 
         Dim ntlmHash As String = UnicodeBytesToString(EnByte)
