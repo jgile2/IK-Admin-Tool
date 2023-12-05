@@ -1,13 +1,13 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports System.Xml
-Imports Renci.SshNet.SftpClient
+Imports Renci.SshNet
 
 
 Public Class Library
-    Public client As Renci.SshNet.SftpClient
-    Dim sshclient As Renci.SshNet.SshClient
-    Dim sshcomd As Renci.SshNet.SshCommand
+    Public client As SftpClient
+    Dim sshclient As SshClient
+    Dim sshcomd As SshCommand
     Dim remoteLocation As String
     Dim ngoremoteLocation As String
     Public configFilePath As String = "config.xml"
@@ -47,8 +47,8 @@ Public Class Library
         ngofilePath = ReadConfigValue(configFilePath, "ngolocation")
         remoteLocation = ReadConfigValue(configFilePath, connectedServer + "/defence-location")
         ngoremoteLocation = ReadConfigValue(configFilePath, connectedServer + "/ngo-location")
-        client = New Renci.SshNet.SftpClient(ipaddress, username, password)
-        sshclient = New Renci.SshNet.SshClient(ipaddress, username, password)
+        client = New SftpClient(ipaddress, username, password)
+        sshclient = New SshClient(ipaddress, username, password)
         ' Console.WriteLine("before connected: " & connected)
         Try
             sshclient.Connect()
