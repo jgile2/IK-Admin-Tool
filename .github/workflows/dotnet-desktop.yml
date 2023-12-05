@@ -21,7 +21,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Install Dependencies
-      run: dotnet add package BCrypt.Net-Next --version 4.0.3
+      run: dotnet add IK Admin Tool package BCrypt.Net-Next --version 4.0.3
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
