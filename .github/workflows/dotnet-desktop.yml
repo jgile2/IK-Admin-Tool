@@ -1,4 +1,7 @@
-   name: .NET
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
 
 on:
   push:
@@ -20,7 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build IK Admin Tool --no-restore
+      run: dotnet build "IK Admin Tool" --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-
