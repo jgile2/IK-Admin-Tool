@@ -18,6 +18,7 @@ Public Class Library
     Public ipaddress As String
     Dim connected As Boolean = False
     Public connectedServer As String
+    Public accountType As String
 
 
     Public Function setup()
@@ -248,14 +249,24 @@ Public Class Library
         ' If the text was not found, return 0
         Return 0
     End Function
-    Public Function doesUserExit(user As String) As Boolean
-
+    Public Function doesUserExit(user As String, accounttype As String) As Boolean
+        Dim typePath As String
+        If accounttype = "Defence" Then
+            typePath = filePath
+            ' Console.WriteLine("Account type is Defence")
+        ElseIf accounttype = "NGO" Then
+            typePath = ngofilePath
+            ' Console.WriteLine("Account type is NGO")
+        Else
+            MessageBox.Show("Invalid Account type")
+            typePath = filePath
+        End If
         ' The username to search for
         Dim usernameToFind As String = user
 
         Try
             ' Read all lines from the file
-            Dim lines As String() = File.ReadAllLines(filePath)
+            Dim lines As String() = File.ReadAllLines(typePath)
 
             ' Find the line with an exact match for the username
             Dim matchingLine As String = lines.FirstOrDefault(Function(line) line.Contains(usernameToFind))
@@ -299,13 +310,24 @@ Public Class Library
         End If
     End Sub
 
-    Public Sub addUser(user As String, password As String)
+    Public Sub addUser(user As String, password As String, accounttype As String)
         ' Text to append
+        Dim typePath As String
+        If accounttype = "Defence" Then
+            typePath = filePath
+            ' Console.WriteLine("Account type is Defence")
+        ElseIf accounttype = "NGO" Then
+            typePath = ngofilePath
+            ' Console.WriteLine("Account type is NGO")
+        Else
+            MessageBox.Show("Invalid Account type")
+            typePath = filePath
+        End If
         Dim textToAppend As String = user + "  NT-Password := """ + password + """"
 
         Try
             ' Create a StreamWriter with the Append option
-            Using sw As New StreamWriter(filePath, True)
+            Using sw As New StreamWriter(typePath, True)
                 ' Write the text to the end of the file
                 sw.WriteLine(textToAppend)
             End Using
@@ -315,7 +337,7 @@ Public Class Library
             ' Console.WriteLine($"An error occurred: {ex.Message}")
         End Try
         fillReadout()
-        uploadFile("Defence")
+        uploadFile(accounttype)
         MessageBox.Show(user & " Has been added")
     End Sub
 
@@ -424,6 +446,8 @@ Public Class Library
         Next
         Return hexString.ToString()
     End Function
+    Public Function setAccountType(accountType As String)
 
+    End Function
 
 End Class

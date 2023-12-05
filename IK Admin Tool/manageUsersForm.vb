@@ -35,7 +35,9 @@
     End Sub
 
     Private Sub btnChange_Click(sender As Object, e As EventArgs) Handles btnChange.Click
+        library.setAccountType(cmbAccount.Text)
         chngPwd.Show()
+        chngPwd.setAccountType(cmbAccount.Text)
         chngPwd.updateUserField(userList.Text)
     End Sub
 
