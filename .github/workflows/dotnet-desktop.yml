@@ -20,12 +20,12 @@ jobs:
 
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
-      
+
     - name: Restore NuGet Packages
       run: nuget restore "IK Admin Tool.sln"
 
     - name: Build
-      run: msbuild /p:Configuration=Release IK Admin Tool.sln
+      run: msbuild /p:Configuration=Release "IK Admin Tool.sln"
 
     - name: Test
-      run: msbuild /t:IK Admin Tool.sln
+      run: msbuild /t:"IK Admin Tool.sln"
